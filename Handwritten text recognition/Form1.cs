@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Neural.NET;
 
 namespace Handwritten_text_recognition
 {
@@ -14,11 +15,15 @@ namespace Handwritten_text_recognition
     {
         public Form1()
         {
-            InitializeComponent();
+            InitializeComponent();            
             g = panel1.CreateGraphics();
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             pen = new Pen(Color.Black, 5);
             pen.StartCap = pen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
+
+            //Создает сеть из 784 входной слой, 2 скрытых слоя, 10 выходных
+            Network _network = new Network(784, new[] { 100, 50 }, 10);
+            NetworkTrainer _networkTrainer = new NetworkTrainer(_network);           
         }
 
         Graphics g;
@@ -38,6 +43,7 @@ namespace Handwritten_text_recognition
                 g.DrawLine(pen, new Point(pointx, pointy), e.Location);
                 pointx = e.X;
                 pointy = e.Y;
+                
             }
         }
 
